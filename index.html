@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html lang="zh"
+<html lang="zh">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>嘉应学院A1实验室项目管理系统</title>
-    <H1>嘉应学院 A1 实验室 项目管理系统</H1>
-    <p class="subtitle">A1 Artificial Intelligence Laboratory In JYU
-    </p>
+    
 <style>
     .subtitle{
     text-align:center;
-    font-size:22px;
-    color:#4497dc;
+    font-size:24px;
+    font-weight:bold;
     margin-top:-20px;
-    margin-bottom:30px;
-    letter-spacing:3px;
+    margin-bottom:35px;
+    letter-spacing:4px;
+
+    background:linear-gradient(90deg,#00c6ff,#7ee7ff,#ffffff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:0 0 20px rgba(0,198,255,0.5);
+
+    animation:subtitleGlow 3s infinite alternate;
 }
+
     body{
     font-family: "Microsoft YaHei";
     background: linear-gradient(135deg,#141e30,#243b55);
@@ -222,6 +230,12 @@ input[type="file"]{
 </head>
 
 <body>
+
+<H1>嘉应学院 A1 实验室 项目管理系统</H1>
+
+<p class="subtitle">A1 Artificial Intelligence Laboratory In JYU</p>
+
+
 <div class="login-box">
 
 <h2>系统登录</h2>
@@ -412,8 +426,25 @@ function login(){
     },2000);
 
 }
+function uploadFile(){
+
+    let file =
+    document.getElementById("fileInput").files[0];
+
+    if(file){
+
+        document.getElementById("result").innerHTML =
+        "上传成功：" + file.name;
+
+    }else{
+
+        document.getElementById("result").innerHTML =
+        "请先选择文件";
+    }
+}
 
 </script>
 
 </body>
+
 </html>
