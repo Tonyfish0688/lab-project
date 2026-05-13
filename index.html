@@ -1,10 +1,21 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh"
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嘉应学院 A1 实验室项目管理系统</title>
+    <title>嘉应学院A1实验室项目管理系统</title>
+    <H1>嘉应学院 A1 实验室 项目管理系统</H1>
+    <p class="subtitle">A1 Artificial Intelligence Laboratory In JYU
+    </p>
 <style>
+    .subtitle{
+    text-align:center;
+    font-size:22px;
+    color:#4497dc;
+    margin-top:-20px;
+    margin-bottom:30px;
+    letter-spacing:3px;
+}
     body{
     font-family: "Microsoft YaHei";
     background: linear-gradient(135deg,#141e30,#243b55);
@@ -103,27 +114,147 @@ input[type="file"]{
 }
 
 .banner{
-    width:100%;
-    max-width:900px;
-    border-radius:20px;
+    width:300px;
     display:block;
     margin:20px auto;
+    border-radius:20px;
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+.login-box{
+    width:320px;
+    margin:30px auto;
+    padding:30px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 8px 30px rgba(0,0,0,0.3);
+}
+
+.login-box input{
+    width:90%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    font-size:16px;
+}
+
+#loginResult{
+    margin-top:15px;
+    font-weight:bold;
+}
+
+
+#mainPage{
+    display:none;
+}
+#loadingBox{
+    display:none;
+    text-align:center;
+    margin-top:25px;
+}
+
+#loadingCircle{
+    width:70px;
+    height:70px;
+    border:6px solid rgba(255,255,255,0.2);
+    border-top:6px solid #00ffcc;
+    border-radius:50%;
+    margin:0 auto;
+    animation:spin 1s linear infinite;
+}
+
+#loadingText{
+    margin-top:18px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+@keyframes popSuccess{
+    0%{
+        transform:scale(0.5);
+        opacity:0;
+    }
+
+    70%{
+        transform:scale(1.2);
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes shakeFail{
+    0%{transform:translateX(0);}
+    20%{transform:translateX(-10px);}
+    40%{transform:translateX(10px);}
+    60%{transform:translateX(-10px);}
+    80%{transform:translateX(10px);}
+    100%{transform:translateX(0);}
+}
+
+@keyframes glow{
+    0%{
+        box-shadow:0 0 10px rgba(0,255,150,0.3);
+    }
+
+    50%{
+        box-shadow:0 0 35px rgba(0,255,150,0.9);
+    }
+
+    100%{
+        box-shadow:0 0 10px rgba(0,255,150,0.3);
+    }
 }
   </style>
 </head>
 
 <body>
+<div class="login-box">
 
-  <h1>嘉应学院A1实验室项目管理系统</h1>
-  <img src="国竣.png" class="banner">
+<h2>系统登录</h2>
+
+<input type="text" id="username" placeholder="请输入账号">
+
+<input type="password" id="password" placeholder="请输入密码">
+
+<button onclick="login()">登录</button>
+
+<p id="loginResult"></p>
+<div id="loadingBox">
+
+    <div id="loadingCircle"></div>
+
+    <p id="loadingText"></p>
+
+</div>
+
+</div>
+<div id="mainPage">
+<img src="国竣.png" class="banner">
 
   <div class="card">
     <h2>项目时间轴</h2>
-
     <ul>
       <li>2026年5月8日 A1实验室项目启动</li>
       <li>2026年5月底初步完成网页前端设计</li>
+      <li>2026年5月12日进行物理实验大赛《PCB缺陷检测的》初次彩排</li>
+      <li>2026年5月15日进行物理实验大赛《PCB缺陷检测》正式比赛</li>
+      <li>2026年5月17日进行元老聚餐</li>
+         
+
     </ul>
   </div>
 
@@ -139,6 +270,7 @@ input[type="file"]{
 
   <div class="card">
     <h2>上传日志</h2>
+    <p>测试同步成功</p>
 
     <input type="file" id="fileInput">
 
@@ -148,21 +280,139 @@ input[type="file"]{
 
     <p id="result"></p>
 </div>
+</div>
 
 <script>
-function uploadFile(){
 
-    let file = document.getElementById("fileInput").files[0];
+function login(){
 
-    if(file){
-        document.getElementById("result").innerHTML =
-        "上传成功：" + file.name;
-    }else{
-        document.getElementById("result").innerHTML =
-        "请先选择文件";
-    }
+    let user =
+    document.getElementById("username").value;
+
+    let pass =
+    document.getElementById("password").value;
+
+    document.getElementById("loadingBox").style.display =
+    "block";
+
+    document.getElementById("loadingCircle").innerHTML = "";
+
+    document.getElementById("loadingCircle").style.animation =
+    "spin 1s linear infinite";
+
+    document.getElementById("loadingText").innerHTML =
+    "正在验证身份...";
+
+    document.getElementById("loadingText").style.color =
+    "white";
+
+    setTimeout(function(){
+
+        if(
+
+        (user == "Tonyfish" && pass == "87378822q")
+
+        ||
+
+        (user == "Xu " && pass == "666666")
+
+        ||
+
+        (user == "teacher" && pass == "888888")
+
+        ){
+
+            document.getElementById("loadingCircle").style.animation =
+            "none";
+
+            document.getElementById("loadingCircle").innerHTML =
+            "✓";
+
+            document.getElementById("loadingCircle").style.display =
+            "flex";
+
+            document.getElementById("loadingCircle").style.alignItems =
+            "center";
+
+            document.getElementById("loadingCircle").style.justifyContent =
+            "center";
+
+            document.getElementById("loadingCircle").style.fontSize =
+            "40px";
+
+            document.getElementById("loadingCircle").style.color =
+            "#00ff99";
+
+            document.getElementById("loadingCircle").style.borderTop =
+            "6px solid #00ff99";
+            
+            document.getElementById("loadingCircle").style.animation =
+            "popSuccess 0.6s ease";
+
+            document.getElementById("loadingCircle").style.boxShadow =
+            "0 0 30px #00ff99";
+
+            document.getElementById("loadingCircle").style.animation +=
+            ", glow 1.5s infinite";
+
+            document.getElementById("loadingText").innerHTML =
+            "登陆成功";
+
+            document.getElementById("loadingText").style.color =
+            "#00ff99";
+
+            setTimeout(function(){
+
+                document.querySelector(".login-box").style.display =
+                "none";
+
+                document.getElementById("mainPage").style.display =
+                "block";
+
+            },1500);
+
+        }else{
+
+            document.getElementById("loadingCircle").style.animation =
+            "none";
+
+            document.getElementById("loadingCircle").innerHTML =
+            "×";
+
+            document.getElementById("loadingCircle").style.display =
+            "flex";
+
+            document.getElementById("loadingCircle").style.alignItems =
+            "center";
+
+            document.getElementById("loadingCircle").style.justifyContent =
+            "center";
+
+            document.getElementById("loadingCircle").style.fontSize =
+            "40px";
+
+            document.getElementById("loadingCircle").style.color =
+            "red";
+            document.getElementById("loadingCircle").style.borderTop =
+            "6px solid red";
+            
+            document.getElementById("loadingCircle").style.animation =
+            "shakeFail 0.5s";
+
+            document.getElementById("loadingText").style.animation =
+            "shakeFail 0.5s";
+
+            document.getElementById("loadingText").innerHTML =
+            "登陆失败 请重试";
+
+            document.getElementById("loadingText").style.color =
+            "red";
+        }
+
+    },2000);
 
 }
+
 </script>
 
 </body>
