@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嘉应学院A1实验室项目管理系统</title>
-    
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嘉应学院A1实验室项目管理系统</title>
+
 <style>
-    .subtitle{
+/* 副标题渐变效果 */
+.subtitle{
     text-align:center;
     font-size:24px;
     font-weight:bold;
     margin-top:-20px;
     margin-bottom:35px;
     letter-spacing:4px;
-
     background:linear-gradient(90deg,#00c6ff,#7ee7ff,#ffffff);
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
-
     text-shadow:0 0 20px rgba(0,198,255,0.5);
-
     animation:subtitleGlow 3s infinite alternate;
 }
+@keyframes subtitleGlow{
+    0%{text-shadow:0 0 10px rgba(0,198,255,0.3);}
+    50%{text-shadow:0 0 30px rgba(0,198,255,0.8);}
+    100%{text-shadow:0 0 10px rgba(0,198,255,0.3);}
+}
 
-    body{
+body{
     font-family: "Microsoft YaHei";
     background: linear-gradient(135deg,#141e30,#243b55);
     padding:40px;
@@ -45,6 +47,7 @@ h1{
     margin:20px auto;
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
+
 .card{
     background: rgba(255,255,255,0.08);
     backdrop-filter: blur(12px);
@@ -87,12 +90,8 @@ ul{
 }
 
 @keyframes load{
-    from{
-        width:0;
-    }
-    to{
-        width:2%;
-    }
+    from{width:0;}
+    to{width:2%;}
 }
 
 button{
@@ -128,6 +127,7 @@ input[type="file"]{
     border-radius:20px;
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
+
 .login-box{
     width:320px;
     margin:30px auto;
@@ -154,7 +154,6 @@ input[type="file"]{
     font-weight:bold;
 }
 
-
 #mainPage{
     display:none;
 }
@@ -163,7 +162,6 @@ input[type="file"]{
     text-align:center;
     margin-top:25px;
 }
-
 #loadingCircle{
     width:70px;
     height:70px;
@@ -173,37 +171,20 @@ input[type="file"]{
     margin:0 auto;
     animation:spin 1s linear infinite;
 }
-
 #loadingText{
     margin-top:18px;
     font-size:20px;
     font-weight:bold;
 }
-
 @keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 @keyframes popSuccess{
-    0%{
-        transform:scale(0.5);
-        opacity:0;
-    }
-
-    70%{
-        transform:scale(1.2);
-    }
-
-    100%{
-        transform:scale(1);
-        opacity:1;
-    }
+    0%{transform:scale(0.5);opacity:0;}
+    70%{transform:scale(1.2);}
+    100%{transform:scale(1);opacity:1;}
 }
-
 @keyframes shakeFail{
     0%{transform:translateX(0);}
     20%{transform:translateX(-10px);}
@@ -212,239 +193,211 @@ input[type="file"]{
     80%{transform:translateX(10px);}
     100%{transform:translateX(0);}
 }
-
 @keyframes glow{
-    0%{
-        box-shadow:0 0 10px rgba(0,255,150,0.3);
-    }
-
-    50%{
-        box-shadow:0 0 35px rgba(0,255,150,0.9);
-    }
-
-    100%{
-        box-shadow:0 0 10px rgba(0,255,150,0.3);
-    }
+    0%{box-shadow:0 0 10px rgba(0,255,150,0.3);}
+    50%{box-shadow:0 0 35px rgba(0,255,150,0.9);}
+    100%{box-shadow:0 0 10px rgba(0,255,150,0.3);}
 }
-  </style>
+
+/* 弹窗样式 */
+#welcomeModal {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(62, 197, 234, 0.9);
+    color:white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight:bold;
+    text-align:center;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    opacity:0;
+    transition: opacity 0.5s ease, top 0.5s ease;
+    z-index:9999;
+}
+#welcomeModal.show {
+    opacity:1;
+    top:50px;
+}
+#watermark{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998;
+    overflow: hidden;
+}
+
+.watermark-text{
+    position: absolute;
+    color: rgba(255,255,255,0.08);
+    font-size: 32px;
+    font-weight: bold;
+    transform: rotate(-25deg);
+    user-select: none;
+    white-space: nowrap;
+}
+</style>
 </head>
 
 <body>
+<div id="watermark"></div>
+<!-- 欢迎弹窗 -->
+<div id="welcomeModal">
+    <p id="welcomeTextModal"></p>
+</div>
 
-<H1>嘉应学院 A1 实验室 项目管理系统</H1>
-
+<h1>嘉应学院 A1 实验室 项目管理系统</h1>
 <p class="subtitle">A1 Artificial Intelligence Laboratory In JYU</p>
 
-
 <div class="login-box">
-
-<h2>系统登录</h2>
-
-<input type="text" id="username" placeholder="请输入账号">
-
-<input type="password" id="password" placeholder="请输入密码">
-
-<button onclick="login()">登录</button>
-
-<p id="loginResult"></p>
-<div id="loadingBox">
-
-    <div id="loadingCircle"></div>
-
-    <p id="loadingText"></p>
-
-</div>
-
-</div>
-<div id="mainPage">
-<img src="国竣.png" class="banner">
-
-  <div class="card">
-    <h2>项目时间轴</h2>
-    <ul>
-      <li>2026年5月8日 A1实验室项目启动</li>
-      <li>2026年5月底初步完成网页前端设计</li>
-      <li>2026年5月12日进行物理实验大赛《PCB缺陷检测的》初次彩排</li>
-      <li>2026年5月15日进行物理实验大赛《PCB缺陷检测》正式比赛</li>
-      <li>2026年5月17日进行元老聚餐</li>
-         
-
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>团队总进度</h2>
-
-    <div class="progress">
-      <div class="progress-bar"></div>
+    <h2>系统登录</h2>
+    <input type="text" id="username" placeholder="请输入账号">
+    <input type="password" id="password" placeholder="请输入密码">
+    <button onclick="login()">登录</button>
+    <p id="loginResult"></p>
+    <div id="loadingBox">
+        <div id="loadingCircle"></div>
+        <p id="loadingText"></p>
     </div>
-
-    <p>当前进度：2%</p>
-  </div>
-
-  <div class="card">
-    <h2>上传日志</h2>
-    <p>测试同步成功</p>
-
-    <input type="file" id="fileInput">
-
-    <br><br>
-
-    <button onclick="uploadFile()">提交</button>
-
-    <p id="result"></p>
 </div>
+
+<div id="mainPage">
+    <img src="国竣.png" class="banner">
+    <div class="card">
+        <h2>项目时间轴</h2>
+        <ul>
+            <li>2026年5月8日 A1实验室项目启动</li>
+            <li>2026年5月底初步完成网页前端设计</li>
+            <li>2026年5月12日进行物理实验大赛《PCB缺陷检测的》初次彩排</li>
+            <li>2026年5月15日进行物理实验大赛《PCB缺陷检测》正式比赛</li>
+            <li>2026年5月17日进行元老聚餐</li>
+        </ul>
+    </div>
+    <div class="card">
+        <h2>团队总进度</h2>
+        <div class="progress"><div class="progress-bar"></div></div>
+        <p>当前进度：2%</p>
+    </div>
+    <div class="card">
+        <h2>上传日志</h2>
+        <p>测试同步成功</p>
+        <input type="file" id="fileInput">
+        <br><br>
+        <button onclick="uploadFile()">提交</button>
+        <p id="result"></p>
+    </div>
 </div>
 
 <script>
-
 function login(){
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
 
-    let user =
-    document.getElementById("username").value;
-
-    let pass =
-    document.getElementById("password").value;
-
-    document.getElementById("loadingBox").style.display =
-    "block";
-
+    document.getElementById("loadingBox").style.display = "block";
     document.getElementById("loadingCircle").innerHTML = "";
-
-    document.getElementById("loadingCircle").style.animation =
-    "spin 1s linear infinite";
-
-    document.getElementById("loadingText").innerHTML =
-    "正在验证身份...";
-
-    document.getElementById("loadingText").style.color =
-    "white";
+    document.getElementById("loadingCircle").style.animation = "spin 1s linear infinite";
+    document.getElementById("loadingText").innerHTML = "正在验证身份...";
+    document.getElementById("loadingText").style.color = "white";
 
     setTimeout(function(){
+        let realName = "";
+        if(user=="Tonyfish" && pass=="87378822q") realName="范腾宇";
+        else if(user=="king01" && pass=="king01.ABc") realName="刘镇";
+        else if(user=="teacher" && pass=="888888") realName="指导教师";
+        else if(user=="1" && pass=="1") realName="测试员";
+        else if(user=="teacher" && pass=="888888") realName="指导教师";
 
-        if(
+        if(realName != ""){
+            // 登录成功动画
+            document.getElementById("loadingCircle").style.animation = "none";
+            document.getElementById("loadingCircle").innerHTML = "✓";
+            document.getElementById("loadingCircle").style.display = "flex";
+            document.getElementById("loadingCircle").style.alignItems = "center";
+            document.getElementById("loadingCircle").style.justifyContent = "center";
+            document.getElementById("loadingCircle").style.fontSize = "40px";
+            document.getElementById("loadingCircle").style.color = "#00ff99";
+            document.getElementById("loadingCircle").style.borderTop = "6px solid #00ff99";
+            document.getElementById("loadingCircle").style.animation = "popSuccess 0.6s ease, glow 1.5s infinite";
+            document.getElementById("loadingCircle").style.boxShadow = "0 0 30px #00ff99";
 
-        (user == "Tonyfish" && pass == "87378822q")
-
-        ||
-
-        (user == "Xu " && pass == "666666")
-
-        ||
-
-        (user == "teacher" && pass == "888888")
-
-        ){
-
-            document.getElementById("loadingCircle").style.animation =
-            "none";
-
-            document.getElementById("loadingCircle").innerHTML =
-            "✓";
-
-            document.getElementById("loadingCircle").style.display =
-            "flex";
-
-            document.getElementById("loadingCircle").style.alignItems =
-            "center";
-
-            document.getElementById("loadingCircle").style.justifyContent =
-            "center";
-
-            document.getElementById("loadingCircle").style.fontSize =
-            "40px";
-
-            document.getElementById("loadingCircle").style.color =
-            "#00ff99";
-
-            document.getElementById("loadingCircle").style.borderTop =
-            "6px solid #00ff99";
-            
-            document.getElementById("loadingCircle").style.animation =
-            "popSuccess 0.6s ease";
-
-            document.getElementById("loadingCircle").style.boxShadow =
-            "0 0 30px #00ff99";
-
-            document.getElementById("loadingCircle").style.animation +=
-            ", glow 1.5s infinite";
-
-            document.getElementById("loadingText").innerHTML =
-            "登陆成功";
-
-            document.getElementById("loadingText").style.color =
-            "#00ff99";
+            document.getElementById("loadingText").innerHTML = "登陆成功";
+            document.getElementById("loadingText").style.color = "#00ff99";
 
             setTimeout(function(){
+                document.querySelector(".login-box").style.display = "none";
+                document.getElementById("mainPage").style.display = "block";
 
-                document.querySelector(".login-box").style.display =
-                "none";
+                // 弹窗显示
+                let modal = document.getElementById("welcomeModal");
+                let modalText = document.getElementById("welcomeTextModal");
+                modalText.innerHTML = "欢迎您，" + realName;
+                modal.classList.add("show");
+                
+                createWatermark(realName);
 
-                document.getElementById("mainPage").style.display =
-                "block";
+                setTimeout(function(){
+                    modal.classList.remove("show");
+                },3000);
 
             },1500);
-
         }else{
-
-            document.getElementById("loadingCircle").style.animation =
-            "none";
-
-            document.getElementById("loadingCircle").innerHTML =
-            "×";
-
-            document.getElementById("loadingCircle").style.display =
-            "flex";
-
-            document.getElementById("loadingCircle").style.alignItems =
-            "center";
-
-            document.getElementById("loadingCircle").style.justifyContent =
-            "center";
-
-            document.getElementById("loadingCircle").style.fontSize =
-            "40px";
-
-            document.getElementById("loadingCircle").style.color =
-            "red";
-            document.getElementById("loadingCircle").style.borderTop =
-            "6px solid red";
-            
-            document.getElementById("loadingCircle").style.animation =
-            "shakeFail 0.5s";
-
-            document.getElementById("loadingText").style.animation =
-            "shakeFail 0.5s";
-
-            document.getElementById("loadingText").innerHTML =
-            "登陆失败 请重试";
-
-            document.getElementById("loadingText").style.color =
-            "red";
+            // 登录失败动画
+            document.getElementById("loadingCircle").style.animation = "none";
+            document.getElementById("loadingCircle").innerHTML = "×";
+            document.getElementById("loadingCircle").style.display = "flex";
+            document.getElementById("loadingCircle").style.alignItems = "center";
+            document.getElementById("loadingCircle").style.justifyContent = "center";
+            document.getElementById("loadingCircle").style.fontSize = "40px";
+            document.getElementById("loadingCircle").style.color = "red";
+            document.getElementById("loadingCircle").style.borderTop = "6px solid red";
+            document.getElementById("loadingCircle").style.animation = "shakeFail 0.5s";
+            document.getElementById("loadingText").style.animation = "shakeFail 0.5s";
+            document.getElementById("loadingText").innerHTML = "登陆失败 请重试";
+            document.getElementById("loadingText").style.color = "red";
         }
-
     },2000);
-
 }
-function uploadFile(){
 
-    let file =
-    document.getElementById("fileInput").files[0];
+function createWatermark(name){
 
-    if(file){
+    let watermark =
+    document.getElementById("watermark");
 
-        document.getElementById("result").innerHTML =
-        "上传成功：" + file.name;
+    watermark.innerHTML = "";
 
-    }else{
+    for(let i = 0; i < 20; i++){
 
-        document.getElementById("result").innerHTML =
-        "请先选择文件";
+        let text =
+        document.createElement("div");
+
+        text.className = "watermark-text";
+
+        text.innerHTML = name;
+
+        text.style.left =
+        (i % 5) * 25 + "%";
+
+        text.style.top =
+        Math.floor(i / 5) * 25 + "%";
+
+        watermark.appendChild(text);
     }
 }
 
+function uploadFile(){
+    let file = document.getElementById("fileInput").files[0];
+    if(file){
+        document.getElementById("result").innerHTML = "上传成功：" + file.name;
+    }else{
+        document.getElementById("result").innerHTML = "请先选择文件";
+    }
+}
 </script>
 
 </body>
-
 </html>
