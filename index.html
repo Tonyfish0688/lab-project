@@ -4,7 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>嘉应学院A1实验室项目管理系统</title>
-
 <style>
 /* 副标题渐变效果 */
 .subtitle{
@@ -29,19 +28,20 @@
 body{
     font-family: "Microsoft YaHei";
     background: linear-gradient(135deg,#141e30,#243b55);
-    padding:40px;
+    padding:20px 15px;
     color:white;
+    margin:0;
 }
 
 h1{
     text-align:center;
-    margin-bottom:40px;
-    font-size:42px;
+    margin-bottom:30px;
+    font-size:36px;
 }
 
 .banner{
-    width:90%;
-    max-width:900px;
+    width:200px; /* 图片小一些 */
+    max-width:90%;
     border-radius:20px;
     display:block;
     margin:20px auto;
@@ -51,9 +51,9 @@ h1{
 .card{
     background: rgba(255,255,255,0.08);
     backdrop-filter: blur(12px);
-    padding:25px;
+    padding:20px;
     border-radius:20px;
-    margin-bottom:25px;
+    margin-bottom:20px;
     box-shadow:0 8px 30px rgba(0,0,0,0.3);
     border:1px solid rgba(255,255,255,0.1);
     transition:0.3s;
@@ -89,10 +89,7 @@ ul{
     animation:load 2s;
 }
 
-@keyframes load{
-    from{width:0;}
-    to{width:2%;}
-}
+@keyframes load{from{width:0;} to{width:2%;}}
 
 button{
     background: linear-gradient(90deg,#00c6ff,#0072ff);
@@ -105,58 +102,37 @@ button{
     transition:0.3s;
 }
 
-button:hover{
-    transform:scale(1.05);
-}
+button:hover{transform:scale(1.05);}
 
-input[type="file"]{
+input[type="file"], input[type="text"], input[type="password"]{
+    width:90%;
     margin-top:10px;
-    color:white;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    font-size:16px;
 }
 
-#result{
-    margin-top:15px;
-    color:#7CFFB2;
-    font-weight:bold;
-}
+#result{margin-top:15px;color:#7CFFB2;font-weight:bold;}
 
-.banner{
-    width:300px;
-    display:block;
-    margin:20px auto;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-
+/* 登录框 */
 .login-box{
-    width:320px;
-    margin:30px auto;
+    width:90%;
+    max-width:360px;
+    margin:100px auto 30px auto; /* 下移登录框 */
     padding:30px;
     background:rgba(255,255,255,0.08);
     backdrop-filter:blur(10px);
     border-radius:20px;
     text-align:center;
-    box-shadow:0 8px 30px rgba(0,0,0,0.3);
+    box-shadow:0 8px 30px rgba(185, 112, 112, 0.3);
 }
 
-.login-box input{
-    width:90%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    outline:none;
-    font-size:16px;
-}
+#loginResult{margin-top:15px;font-weight:bold;}
+#mainPage{display:none;}
 
-#loginResult{
-    margin-top:15px;
-    font-weight:bold;
-}
-
-#mainPage{
-    display:none;
-}
+/* 加载动画 */
 #loadingBox{
     display:none;
     text-align:center;
@@ -176,94 +152,86 @@ input[type="file"]{
     font-size:20px;
     font-weight:bold;
 }
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
-@keyframes popSuccess{
-    0%{transform:scale(0.5);opacity:0;}
-    70%{transform:scale(1.2);}
-    100%{transform:scale(1);opacity:1;}
-}
-@keyframes shakeFail{
-    0%{transform:translateX(0);}
-    20%{transform:translateX(-10px);}
-    40%{transform:translateX(10px);}
-    60%{transform:translateX(-10px);}
-    80%{transform:translateX(10px);}
-    100%{transform:translateX(0);}
-}
-@keyframes glow{
-    0%{box-shadow:0 0 10px rgba(0,255,150,0.3);}
-    50%{box-shadow:0 0 35px rgba(0,255,150,0.9);}
-    100%{box-shadow:0 0 10px rgba(0,255,150,0.3);}
-}
+@keyframes spin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+@keyframes popSuccess{0%{transform:scale(0.5);opacity:0;} 70%{transform:scale(1.2);} 100%{transform:scale(1);opacity:1;}}
+@keyframes shakeFail{0%{transform:translateX(0);}20%{transform:translateX(-10px);}40%{transform:translateX(10px);}60%{transform:translateX(-10px);}80%{transform:translateX(10px);}100%{transform:translateX(0);}}
+@keyframes glow{0%{box-shadow:0 0 10px rgba(0,255,150,0.3);}50%{box-shadow:0 0 35px rgba(0,255,150,0.9);}100%{box-shadow:0 0 10px rgba(0,255,150,0.3);}}
 
-/* 弹窗样式 */
-#welcomeModal {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+/* 欢迎弹窗 */
+#welcomeModal{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
     background: rgba(62, 197, 234, 0.9);
     color:white;
-    padding: 15px 25px;
-    border-radius: 12px;
-    font-size: 18px;
+    padding:15px 25px;
+    border-radius:12px;
+    font-size:18px;
     font-weight:bold;
     text-align:center;
     box-shadow:0 4px 20px rgba(0,0,0,0.3);
     opacity:0;
-    transition: opacity 0.5s ease, top 0.5s ease;
+    transition:opacity 0.5s ease, top 0.5s ease;
     z-index:9999;
 }
-#welcomeModal.show {
-    opacity:1;
-    top:50px;
-}
+#welcomeModal.show{opacity:1; top:50px;}
+
+/* 水印 */
 #watermark{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9998;
-    overflow: hidden;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:998;
+    overflow:hidden;
+}
+.watermark-text{
+    position:absolute;
+    color: rgba(255,255,255,0.08);
+    font-size:32px;
+    font-weight:bold;
+    transform:rotate(-25deg);
+    user-select:none;
+    white-space:nowrap;
 }
 
-.watermark-text{
-    position: absolute;
-    color: rgba(255,255,255,0.08);
-    font-size: 32px;
-    font-weight: bold;
-    transform: rotate(-25deg);
-    user-select: none;
-    white-space: nowrap;
+/* 手机自适应 */
+@media (max-width:480px){
+    h1{font-size:28px;margin-bottom:20px;}
+    .subtitle{font-size:18px;margin-top:-10px;margin-bottom:20px;}
+    .login-box{padding:15px;margin:60px auto 20px auto;}
+    button{font-size:14px;padding:10px 20px;}
+    input[type="text"], input[type="password"], input[type="file"]{font-size:14px;padding:8px;}
+    .card{padding:15px;margin-bottom:15px;}
+    .watermark-text{font-size:20px;}
+    #welcomeModal{font-size:16px;padding:10px 15px;}
+    .banner{width:150px;}
 }
 </style>
 </head>
 
 <body>
 <div id="watermark"></div>
-<!-- 欢迎弹窗 -->
-<div id="welcomeModal">
-    <p id="welcomeTextModal"></p>
-</div>
+<div id="welcomeModal"><p id="welcomeTextModal"></p></div>
 
-<h1>嘉应学院 A1 实验室 项目管理系统</h1>
+<h1>嘉应学院 A1 实验室项目管理系统</h1>
 <p class="subtitle">A1 Artificial Intelligence Laboratory In JYU</p>
 
 <div class="login-box">
-    <h2>系统登录</h2>
+  <h2>系统登录</h2>
+  <form id="loginForm">
     <input type="text" id="username" placeholder="请输入账号">
     <input type="password" id="password" placeholder="请输入密码">
-    <button onclick="login()">登录</button>
-    <p id="loginResult"></p>
-    <div id="loadingBox">
-        <div id="loadingCircle"></div>
-        <p id="loadingText"></p>
-    </div>
+    <button onclick="login()" style="margin-top:20px;">登录</button>
+  </form>
+  <p id="loginResult"></p>
+  <div id="loadingBox">
+    <div id="loadingCircle"></div>
+    <p id="loadingText"></p>
+  </div>
 </div>
 
 <div id="mainPage">
@@ -285,7 +253,6 @@ input[type="file"]{
     </div>
     <div class="card">
         <h2>上传日志</h2>
-        <p>测试同步成功</p>
         <input type="file" id="fileInput">
         <br><br>
         <button onclick="uploadFile()">提交</button>
@@ -294,107 +261,94 @@ input[type="file"]{
 </div>
 
 <script>
+document.getElementById("loginForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    login();
+});
+
 function login(){
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
-    document.getElementById("loadingBox").style.display = "block";
-    document.getElementById("loadingCircle").innerHTML = "";
-    document.getElementById("loadingCircle").style.animation = "spin 1s linear infinite";
-    document.getElementById("loadingText").innerHTML = "正在验证身份...";
-    document.getElementById("loadingText").style.color = "white";
+    document.getElementById("loadingBox").style.display="block";
+    document.getElementById("loadingCircle").innerHTML="";
+    document.getElementById("loadingCircle").style.animation="spin 1s linear infinite";
+    document.getElementById("loadingText").innerHTML="正在验证身份...";
+    document.getElementById("loadingText").style.color="white";
 
     setTimeout(function(){
-        let realName = "";
+        let realName="";
         if(user=="Tonyfish" && pass=="87378822q") realName="范腾宇";
         else if(user=="king01" && pass=="king01.ABc") realName="刘镇";
-        else if(user=="teacher" && pass=="888888") realName="指导教师";
         else if(user=="1" && pass=="1") realName="测试员";
-        else if(user=="teacher" && pass=="888888") realName="指导教师";
 
-        if(realName != ""){
-            // 登录成功动画
-            document.getElementById("loadingCircle").style.animation = "none";
-            document.getElementById("loadingCircle").innerHTML = "✓";
-            document.getElementById("loadingCircle").style.display = "flex";
-            document.getElementById("loadingCircle").style.alignItems = "center";
-            document.getElementById("loadingCircle").style.justifyContent = "center";
-            document.getElementById("loadingCircle").style.fontSize = "40px";
-            document.getElementById("loadingCircle").style.color = "#00ff99";
-            document.getElementById("loadingCircle").style.borderTop = "6px solid #00ff99";
-            document.getElementById("loadingCircle").style.animation = "popSuccess 0.6s ease, glow 1.5s infinite";
-            document.getElementById("loadingCircle").style.boxShadow = "0 0 30px #00ff99";
+        if(realName!=""){
+            document.getElementById("loadingCircle").style.animation="none";
+            document.getElementById("loadingCircle").innerHTML="✓";
+            document.getElementById("loadingCircle").style.display="flex";
+            document.getElementById("loadingCircle").style.alignItems="center";
+            document.getElementById("loadingCircle").style.justifyContent="center";
+            document.getElementById("loadingCircle").style.fontSize="40px";
+            document.getElementById("loadingCircle").style.color="#00ff99";
+            document.getElementById("loadingCircle").style.borderTop="6px solid #00ff99";
+            document.getElementById("loadingCircle").style.animation="popSuccess 0.6s ease, glow 1.5s infinite";
+            document.getElementById("loadingCircle").style.boxShadow="0 0 30px #00ff99";
 
-            document.getElementById("loadingText").innerHTML = "登陆成功";
-            document.getElementById("loadingText").style.color = "#00ff99";
+            document.getElementById("loadingText").innerHTML="登陆成功";
+            document.getElementById("loadingText").style.color="#00ff99";
 
             setTimeout(function(){
-                document.querySelector(".login-box").style.display = "none";
-                document.getElementById("mainPage").style.display = "block";
+                document.querySelector(".login-box").style.display="none";
+                document.getElementById("mainPage").style.display="block";
 
                 // 弹窗显示
-                let modal = document.getElementById("welcomeModal");
-                let modalText = document.getElementById("welcomeTextModal");
-                modalText.innerHTML = "欢迎您，" + realName;
+                let modal=document.getElementById("welcomeModal");
+                let modalText=document.getElementById("welcomeTextModal");
+                modalText.innerHTML="欢迎您，"+realName;
                 modal.classList.add("show");
-                
+
+                // 添加水印
                 createWatermark(realName);
 
-                setTimeout(function(){
-                    modal.classList.remove("show");
-                },3000);
+                setTimeout(function(){modal.classList.remove("show");},3000);
 
             },1500);
         }else{
-            // 登录失败动画
-            document.getElementById("loadingCircle").style.animation = "none";
-            document.getElementById("loadingCircle").innerHTML = "×";
-            document.getElementById("loadingCircle").style.display = "flex";
-            document.getElementById("loadingCircle").style.alignItems = "center";
-            document.getElementById("loadingCircle").style.justifyContent = "center";
-            document.getElementById("loadingCircle").style.fontSize = "40px";
-            document.getElementById("loadingCircle").style.color = "red";
-            document.getElementById("loadingCircle").style.borderTop = "6px solid red";
-            document.getElementById("loadingCircle").style.animation = "shakeFail 0.5s";
-            document.getElementById("loadingText").style.animation = "shakeFail 0.5s";
-            document.getElementById("loadingText").innerHTML = "登陆失败 请重试";
-            document.getElementById("loadingText").style.color = "red";
+            document.getElementById("loadingCircle").style.animation="none";
+            document.getElementById("loadingCircle").innerHTML="×";
+            document.getElementById("loadingCircle").style.display="flex";
+            document.getElementById("loadingCircle").style.alignItems="center";
+            document.getElementById("loadingCircle").style.justifyContent="center";
+            document.getElementById("loadingCircle").style.fontSize="40px";
+            document.getElementById("loadingCircle").style.color="red";
+            document.getElementById("loadingCircle").style.borderTop="6px solid red";
+            document.getElementById("loadingCircle").style.animation="shakeFail 0.5s";
+            document.getElementById("loadingText").style.animation="shakeFail 0.5s";
+            document.getElementById("loadingText").innerHTML="登陆失败 请重试";
+            document.getElementById("loadingText").style.color="red";
         }
     },2000);
 }
 
 function createWatermark(name){
-
-    let watermark =
-    document.getElementById("watermark");
-
-    watermark.innerHTML = "";
-
-    for(let i = 0; i < 20; i++){
-
-        let text =
-        document.createElement("div");
-
-        text.className = "watermark-text";
-
-        text.innerHTML = name;
-
-        text.style.left =
-        (i % 5) * 25 + "%";
-
-        text.style.top =
-        Math.floor(i / 5) * 25 + "%";
-
+    let watermark=document.getElementById("watermark");
+    watermark.innerHTML="";
+    for(let i=0;i<20;i++){
+        let text=document.createElement("div");
+        text.className="watermark-text";
+        text.innerHTML=name;
+        text.style.left=(i%5)*25+"%";
+        text.style.top=Math.floor(i/5)*25+"%";
         watermark.appendChild(text);
     }
 }
 
 function uploadFile(){
-    let file = document.getElementById("fileInput").files[0];
+    let file=document.getElementById("fileInput").files[0];
     if(file){
-        document.getElementById("result").innerHTML = "上传成功：" + file.name;
+        document.getElementById("result").innerHTML="上传成功："+file.name;
     }else{
-        document.getElementById("result").innerHTML = "请先选择文件";
+        document.getElementById("result").innerHTML="请先选择文件";
     }
 }
 </script>
