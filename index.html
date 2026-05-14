@@ -242,7 +242,7 @@ input[type="file"], input[type="text"], input[type="password"]{
             <li>2026年5月8日 A1实验室项目启动</li>
             <li>2026年5月底初步完成网页前端设计</li>
             <li>2026年5月12日进行物理实验大赛《PCB缺陷检测的》初次彩排</li>
-            <li>2026年5月15日进行物理实验大赛《PCB缺陷检测》正式比赛</li>
+            <li>2026年5月15日进行物理实验大赛《PCB缺陷检测的》正式比赛</li>
             <li>2026年5月17日进行元老聚餐</li>
         </ul>
     </div>
@@ -260,98 +260,139 @@ input[type="file"], input[type="text"], input[type="password"]{
     </div>
 </div>
 
-<script>
-document.getElementById("loginForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    login();
-});
+<script type="module">
+  // Firebase SDK 引入
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-storage.js";
 
-function login(){
-    let user = document.getElementById("username").value;
-    let pass = document.getElementById("password").value;
+  // Firebase 配置
+  const firebaseConfig = {
+    apiKey: "AIzaSyB31NY9EnLbJMiYU5rwZJLV-j2xCHCAZEM",
+    authDomain: "a1-lab-project.firebaseapp.com",
+    projectId: "a1-lab-project",
+    storageBucket: "a1-lab-project.firebasestorage.app",
+    messagingSenderId: "642651867311",
+    appId: "1:642651867311:web:3d76cbc99e5e2231ec2c5a",
+    measurementId: "G-0X2HRZ9Y86"
+  };
 
-    document.getElementById("loadingBox").style.display="block";
-    document.getElementById("loadingCircle").innerHTML="";
-    document.getElementById("loadingCircle").style.animation="spin 1s linear infinite";
-    document.getElementById("loadingText").innerHTML="正在验证身份...";
-    document.getElementById("loadingText").style.color="white";
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const storage = getStorage(app);
 
-    setTimeout(function(){
-        let realName="";
-        if(user=="Tonyfish" && pass=="87378822q") realName="范腾宇";
-        else if(user=="king01" && pass=="king01.ABc") realName="刘镇";
-        else if(user=="1" && pass=="1") realName="测试员";
-        else if(user=="HBY大王666" && pass=="gary1204") realName="何滨彦";
+  // 登录事件
+  document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      login();
+  });
 
-        if(realName!=""){
-            document.getElementById("loadingCircle").style.animation="none";
-            document.getElementById("loadingCircle").innerHTML="✓";
-            document.getElementById("loadingCircle").style.display="flex";
-            document.getElementById("loadingCircle").style.alignItems="center";
-            document.getElementById("loadingCircle").style.justifyContent="center";
-            document.getElementById("loadingCircle").style.fontSize="40px";
-            document.getElementById("loadingCircle").style.color="#00ff99";
-            document.getElementById("loadingCircle").style.borderTop="6px solid #00ff99";
-            document.getElementById("loadingCircle").style.animation="popSuccess 0.6s ease, glow 1.5s infinite";
-            document.getElementById("loadingCircle").style.boxShadow="0 0 30px #00ff99";
+  // 登录函数
+  window.login = function(){
+      let user = document.getElementById("username").value;
+      let pass = document.getElementById("password").value;
 
-            document.getElementById("loadingText").innerHTML="登陆成功";
-            document.getElementById("loadingText").style.color="#00ff99";
+      document.getElementById("loadingBox").style.display="block";
+      document.getElementById("loadingCircle").innerHTML="";
+      document.getElementById("loadingCircle").style.animation="spin 1s linear infinite";
+      document.getElementById("loadingText").innerHTML="正在验证身份...";
+      document.getElementById("loadingText").style.color="white";
 
-            setTimeout(function(){
-                document.querySelector(".login-box").style.display="none";
-                document.getElementById("mainPage").style.display="block";
+      setTimeout(function(){
+          let realName="";
+          if(user=="Tonyfish" && pass=="87378822q") realName="范腾宇";
+          else if(user=="king01" && pass=="king01.ABc") realName="刘镇";
+          else if(user=="1" && pass=="1") realName="测试员";
+          else if(user=="HBY大王666" && pass=="gary1204") realName="何滨彦";
+          else if(user=="bin" && pass=="Lzb@20061025") realName="雷志彬";
+          else if(user=="布加迪" && pass=="Aa681298") realName="连钢权";
+          else if(user=="14750339695" && pass=="689695") realName="杜剑锐";
+          else if(user=="泡菜鱼" && pass=="packchanyeol") realName="钟颖颖";
+          else if(user=="nai" && pass=="123456") realName="徐国竣";
 
-                // 弹窗显示
-                let modal=document.getElementById("welcomeModal");
-                let modalText=document.getElementById("welcomeTextModal");
-                modalText.innerHTML="欢迎您，"+realName;
-                modal.classList.add("show");
+          if(realName!=""){
+              document.getElementById("loadingCircle").style.animation="none";
+              document.getElementById("loadingCircle").innerHTML="✓";
+              document.getElementById("loadingCircle").style.display="flex";
+              document.getElementById("loadingCircle").style.alignItems="center";
+              document.getElementById("loadingCircle").style.justifyContent="center";
+              document.getElementById("loadingCircle").style.fontSize="40px";
+              document.getElementById("loadingCircle").style.color="#00ff99";
+              document.getElementById("loadingCircle").style.borderTop="6px solid #00ff99";
+              document.getElementById("loadingCircle").style.animation="popSuccess 0.6s ease, glow 1.5s infinite";
+              document.getElementById("loadingCircle").style.boxShadow="0 0 30px #00ff99";
 
-                // 添加水印
-                createWatermark(realName);
+              document.getElementById("loadingText").innerHTML="登陆成功";
+              document.getElementById("loadingText").style.color="#00ff99";
 
-                setTimeout(function(){modal.classList.remove("show");},3000);
+              setTimeout(function(){
+                  document.querySelector(".login-box").style.display="none";
+                  document.getElementById("mainPage").style.display="block";
 
-            },1500);
-        }else{
-            document.getElementById("loadingCircle").style.animation="none";
-            document.getElementById("loadingCircle").innerHTML="×";
-            document.getElementById("loadingCircle").style.display="flex";
-            document.getElementById("loadingCircle").style.alignItems="center";
-            document.getElementById("loadingCircle").style.justifyContent="center";
-            document.getElementById("loadingCircle").style.fontSize="40px";
-            document.getElementById("loadingCircle").style.color="red";
-            document.getElementById("loadingCircle").style.borderTop="6px solid red";
-            document.getElementById("loadingCircle").style.animation="shakeFail 0.5s";
-            document.getElementById("loadingText").style.animation="shakeFail 0.5s";
-            document.getElementById("loadingText").innerHTML="登陆失败 请重试";
-            document.getElementById("loadingText").style.color="red";
-        }
-    },2000);
-}
+                  // 弹窗显示
+                  let modal=document.getElementById("welcomeModal");
+                  let modalText=document.getElementById("welcomeTextModal");
+                  modalText.innerHTML="欢迎您，"+realName;
+                  modal.classList.add("show");
 
-function createWatermark(name){
-    let watermark=document.getElementById("watermark");
-    watermark.innerHTML="";
-    for(let i=0;i<20;i++){
-        let text=document.createElement("div");
-        text.className="watermark-text";
-        text.innerHTML=name;
-        text.style.left=(i%5)*25+"%";
-        text.style.top=Math.floor(i/5)*25+"%";
-        watermark.appendChild(text);
-    }
-}
+                  // 添加水印
+                  createWatermark(realName);
 
-function uploadFile(){
-    let file=document.getElementById("fileInput").files[0];
-    if(file){
-        document.getElementById("result").innerHTML="上传成功："+file.name;
-    }else{
-        document.getElementById("result").innerHTML="请先选择文件";
-    }
-}
+                  setTimeout(function(){modal.classList.remove("show");},3000);
+
+              },1500);
+          }else{
+              document.getElementById("loadingCircle").style.animation="none";
+              document.getElementById("loadingCircle").innerHTML="×";
+              document.getElementById("loadingCircle").style.display="flex";
+              document.getElementById("loadingCircle").style.alignItems="center";
+              document.getElementById("loadingCircle").style.justifyContent="center";
+              document.getElementById("loadingCircle").style.fontSize="40px";
+              document.getElementById("loadingCircle").style.color="red";
+              document.getElementById("loadingCircle").style.borderTop="6px solid red";
+              document.getElementById("loadingCircle").style.animation="shakeFail 0.5s";
+              document.getElementById("loadingText").style.animation="shakeFail 0.5s";
+              document.getElementById("loadingText").innerHTML="登陆失败 请重试";
+              document.getElementById("loadingText").style.color="red";
+          }
+      },2000);
+  }
+
+  // 水印函数
+  function createWatermark(name){
+      let watermark=document.getElementById("watermark");
+      watermark.innerHTML="";
+      for(let i=0;i<20;i++){
+          let text=document.createElement("div");
+          text.className="watermark-text";
+          text.innerHTML=name;
+          text.style.left=(i%5)*25+"%";
+          text.style.top=Math.floor(i/5)*25+"%";
+          watermark.appendChild(text);
+      }
+  }
+
+  // 上传文件函数
+  window.uploadFile = function(){
+      const file = document.getElementById("fileInput").files[0];
+      const result = document.getElementById("result");
+
+      if(!file){
+          result.innerText = "请先选择文件";
+          return;
+      }
+
+      const storageRef = ref(storage, "uploads/" + file.name);
+
+      uploadBytes(storageRef, file)
+          .then(snapshot => getDownloadURL(snapshot.ref))
+          .then(url => {
+              result.innerHTML = `上传成功！文件链接：<a href="${url}" target="_blank">${url}</a>`;
+          })
+          .catch(error => {
+              result.innerText = "上传失败：" + error;
+          });
+  }
 </script>
 
 </body>
